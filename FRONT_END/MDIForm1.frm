@@ -12,14 +12,23 @@ Begin VB.MDIForm MDIForm1
    WindowState     =   2  'Maximized
    Begin VB.PictureBox Picture1 
       Align           =   1  'Align Top
-      Height          =   615
+      Height          =   735
       Left            =   0
-      Picture         =   "MDIForm1.frx":2F8DE
-      ScaleHeight     =   555
+      ScaleHeight     =   675
       ScaleWidth      =   15135
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   0
       Width           =   15195
+   End
+   Begin VB.PictureBox Picture2 
+      Align           =   3  'Align Left
+      Height          =   7755
+      Left            =   0
+      ScaleHeight     =   7695
+      ScaleWidth      =   4335
+      TabIndex        =   0
+      Top             =   735
+      Width           =   4400
    End
    Begin VB.Menu Department 
       Caption         =   "&Department"
@@ -79,6 +88,18 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub MDIForm_Load()
-Form1.Show
-Form3.Show
+'Form1.Show
+'Form4.Show
+'Form5.Show
+'Form8.Show
+'Form9.Show
+'Form5.Show
+End Sub
+
+Private Sub mnuDepartment_Click()
+frmDepartment.Show
+End Sub
+
+Private Sub mnuPosition_Click()
+frmPosition.Show
 End Sub

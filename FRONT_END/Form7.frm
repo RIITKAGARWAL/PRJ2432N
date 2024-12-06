@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.Form Form5 
+Begin VB.Form Form6 
    Caption         =   "Department & Position"
    ClientHeight    =   8685
    ClientLeft      =   120
@@ -14,7 +14,7 @@ Begin VB.Form Form5
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
-   Icon            =   "Form5.frx":0000
+   Icon            =   "Form7.frx":0000
    LinkTopic       =   "Form5"
    MDIChild        =   -1  'True
    ScaleHeight     =   8685
@@ -32,7 +32,7 @@ Begin VB.Form Form5
       Y2              =   4200
    End
 End
-Attribute VB_Name = "Form5"
+Attribute VB_Name = "Form6"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
