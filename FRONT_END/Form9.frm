@@ -21,15 +21,39 @@ Begin VB.Form frmPosition
    ScaleHeight     =   8685
    ScaleWidth      =   16155
    WindowState     =   2  'Maximized
-   Begin VB.Frame Frame1 
+   Begin VB.Frame Frame5 
+      Caption         =   "Display Panel"
+      Height          =   1335
+      Left            =   10560
+      TabIndex        =   52
+      Top             =   6480
+      Width           =   5175
+      Begin VB.CommandButton cmdPosSearch 
+         Caption         =   "Search &Panel"
+         Height          =   615
+         Left            =   2520
+         TabIndex        =   54
+         Top             =   480
+         Width           =   2200
+      End
+      Begin VB.CommandButton cmdDisp 
+         Caption         =   "&Display Records"
+         Height          =   615
+         Left            =   120
+         TabIndex        =   53
+         Top             =   480
+         Width           =   2200
+      End
+   End
+   Begin VB.Frame frmConPnl 
       Caption         =   "Control Panel"
       Height          =   1335
-      Left            =   7920
+      Left            =   7800
       TabIndex        =   23
       Top             =   4440
       Width           =   7335
       Begin VB.CommandButton Command1 
-         Caption         =   "&create"
+         Caption         =   "&Create"
          Height          =   615
          Left            =   120
          TabIndex        =   28
@@ -37,7 +61,7 @@ Begin VB.Form frmPosition
          Width           =   1335
       End
       Begin VB.CommandButton Command2 
-         Caption         =   "&delete"
+         Caption         =   "&Delete"
          Height          =   615
          Left            =   3000
          TabIndex        =   27
@@ -45,7 +69,7 @@ Begin VB.Form frmPosition
          Width           =   1335
       End
       Begin VB.CommandButton Command3 
-         Caption         =   "&save"
+         Caption         =   "&Save"
          Height          =   615
          Left            =   4440
          TabIndex        =   26
@@ -53,7 +77,7 @@ Begin VB.Form frmPosition
          Width           =   1335
       End
       Begin VB.CommandButton Command4 
-         Caption         =   "&update"
+         Caption         =   "&Update"
          Height          =   615
          Left            =   1560
          TabIndex        =   25
@@ -61,7 +85,7 @@ Begin VB.Form frmPosition
          Width           =   1335
       End
       Begin VB.CommandButton Command5 
-         Caption         =   "&exit"
+         Caption         =   "&Exit"
          Height          =   615
          Left            =   5880
          TabIndex        =   24
@@ -69,7 +93,7 @@ Begin VB.Form frmPosition
          Width           =   1335
       End
    End
-   Begin VB.Frame Frame2 
+   Begin VB.Frame frmNavPnl 
       Caption         =   "Navigation Panel"
       Height          =   1335
       Left            =   120
@@ -77,7 +101,7 @@ Begin VB.Form frmPosition
       Top             =   4440
       Width           =   7335
       Begin VB.CommandButton Command7 
-         Caption         =   "&next"
+         Caption         =   "&Next"
          Height          =   615
          Left            =   3675
          TabIndex        =   22
@@ -85,7 +109,7 @@ Begin VB.Form frmPosition
          Width           =   1575
       End
       Begin VB.CommandButton Command8 
-         Caption         =   "&last"
+         Caption         =   "&Last"
          Height          =   615
          Left            =   5400
          TabIndex        =   21
@@ -93,7 +117,7 @@ Begin VB.Form frmPosition
          Width           =   1575
       End
       Begin VB.CommandButton Command9 
-         Caption         =   "&first"
+         Caption         =   "&First"
          Height          =   615
          Left            =   240
          TabIndex        =   20
@@ -101,7 +125,7 @@ Begin VB.Form frmPosition
          Width           =   1575
       End
       Begin VB.CommandButton Command10 
-         Caption         =   "&previous"
+         Caption         =   "&Previous"
          Height          =   615
          Left            =   1965
          TabIndex        =   19
@@ -109,13 +133,55 @@ Begin VB.Form frmPosition
          Width           =   1575
       End
    End
-   Begin VB.Frame Frame3 
+   Begin VB.Frame frmPosEntry 
       Caption         =   "POSITION ENTRY FORM"
       Height          =   3615
       Left            =   120
       TabIndex        =   9
       Top             =   720
-      Width           =   5655
+      Width           =   14055
+      Begin VB.TextBox Text8 
+         Height          =   495
+         Left            =   11040
+         TabIndex        =   50
+         Top             =   2355
+         Width           =   2415
+      End
+      Begin VB.TextBox Text7 
+         Height          =   495
+         Left            =   11040
+         TabIndex        =   48
+         Top             =   2880
+         Width           =   2415
+      End
+      Begin VB.TextBox Text6 
+         Height          =   495
+         Left            =   11040
+         TabIndex        =   46
+         Top             =   1830
+         Width           =   2415
+      End
+      Begin VB.TextBox Text5 
+         Height          =   495
+         Left            =   11040
+         TabIndex        =   44
+         Top             =   1290
+         Width           =   2415
+      End
+      Begin VB.TextBox Text3 
+         Height          =   495
+         Left            =   11040
+         TabIndex        =   42
+         Top             =   765
+         Width           =   2415
+      End
+      Begin VB.TextBox Text1 
+         Height          =   495
+         Left            =   11040
+         TabIndex        =   40
+         Top             =   240
+         Width           =   2415
+      End
       Begin VB.ComboBox Combo6 
          Height          =   495
          Left            =   3000
@@ -145,6 +211,60 @@ Begin VB.Form frmPosition
          TabIndex        =   10
          Top             =   1680
          Width           =   2415
+      End
+      Begin VB.Label Label17 
+         AutoSize        =   -1  'True
+         Caption         =   "Professional Development (PDA)"
+         Height          =   375
+         Left            =   6480
+         TabIndex        =   51
+         Top             =   2430
+         Width           =   4020
+      End
+      Begin VB.Label Label16 
+         AutoSize        =   -1  'True
+         Caption         =   "Special Allowance"
+         Height          =   375
+         Left            =   6480
+         TabIndex        =   49
+         Top             =   2880
+         Width           =   2205
+      End
+      Begin VB.Label Label15 
+         AutoSize        =   -1  'True
+         Caption         =   "Medical Allowance (MA)"
+         Height          =   375
+         Left            =   6480
+         TabIndex        =   47
+         Top             =   1965
+         Width           =   3030
+      End
+      Begin VB.Label Label14 
+         AutoSize        =   -1  'True
+         Caption         =   "Conveyance Allowance (TA)"
+         Height          =   375
+         Left            =   6480
+         TabIndex        =   45
+         Top             =   1395
+         Width           =   3465
+      End
+      Begin VB.Label Label13 
+         AutoSize        =   -1  'True
+         Caption         =   "Dearness Allowance (DA)"
+         Height          =   375
+         Left            =   6480
+         TabIndex        =   43
+         Top             =   810
+         Width           =   3105
+      End
+      Begin VB.Label Label12 
+         AutoSize        =   -1  'True
+         Caption         =   "House Rent Allowance (HRA)"
+         Height          =   375
+         Left            =   6480
+         TabIndex        =   41
+         Top             =   360
+         Width           =   3615
       End
       Begin VB.Label Label11 
          AutoSize        =   -1  'True
@@ -284,10 +404,10 @@ Begin VB.Form frmPosition
    End
    Begin VB.Frame Frame4 
       Caption         =   "SEARCH BY"
-      Height          =   3615
-      Left            =   5880
+      Height          =   3135
+      Left            =   120
       TabIndex        =   0
-      Top             =   720
+      Top             =   5760
       Width           =   10095
       Begin VB.ComboBox Combo7 
          Height          =   495
@@ -370,14 +490,15 @@ Begin VB.Form frmPosition
          Width           =   2295
       End
    End
-   Begin MSDataGridLib.DataGrid DataGrid1 
-      Height          =   2535
-      Left            =   120
+   Begin MSDataGridLib.DataGrid DataGridPos 
+      Height          =   3495
+      Left            =   360
       TabIndex        =   17
-      Top             =   6000
-      Width           =   15615
-      _ExtentX        =   27543
-      _ExtentY        =   4471
+      Top             =   840
+      Visible         =   0   'False
+      Width           =   14055
+      _ExtentX        =   24791
+      _ExtentY        =   6165
       _Version        =   393216
       HeadLines       =   1
       RowHeight       =   15
@@ -471,18 +592,18 @@ Begin VB.Form frmPosition
    Begin VB.Line Line5 
       BorderColor     =   &H00FF0000&
       BorderWidth     =   4
-      X1              =   9720
-      X2              =   10560
-      Y1              =   7200
-      Y2              =   7200
+      X1              =   11400
+      X2              =   12240
+      Y1              =   8160
+      Y2              =   8160
    End
    Begin VB.Line Line6 
       BorderColor     =   &H00FF0000&
       BorderWidth     =   4
-      X1              =   12360
-      X2              =   13200
-      Y1              =   7200
-      Y2              =   7200
+      X1              =   14040
+      X2              =   14880
+      Y1              =   8160
+      Y2              =   8160
    End
    Begin VB.Label Label7 
       AutoSize        =   -1  'True
@@ -497,9 +618,9 @@ Begin VB.Form frmPosition
          Strikethrough   =   0   'False
       EndProperty
       Height          =   465
-      Left            =   10800
+      Left            =   12480
       TabIndex        =   29
-      Top             =   6960
+      Top             =   7920
       Width           =   1395
    End
 End
@@ -508,6 +629,38 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Sub Frame4_DragDrop(Source As Control, X As Single, Y As Single)
+Dim toogle As Boolean
+
+
+Private Sub cmdPosSearch_Click()
+toogle = False
+frmPosEntry.Visible = False
+frmConPnl.Visible = False
+frmNavPnl.Visible = False
+DataGridPos.Visible = True
+cmdDisp.Caption = "&Back"
+End Sub
+
+Private Sub Form_Load()
+toogle = True
+End Sub
+Private Sub cmdDisp_Click()
+toogle = Not toogle
+If toogle = False Then
+frmPosEntry.Visible = False
+frmConPnl.Visible = False
+frmNavPnl.Visible = False
+DataGridPos.Visible = True
+cmdDisp.Caption = "&Back"
+
+Else
+
+frmPosEntry.Visible = True
+frmConPnl.Visible = True
+frmNavPnl.Visible = True
+DataGridPos.Visible = False
+cmdDisp.Caption = "&Display Records"
+
+End If
 
 End Sub

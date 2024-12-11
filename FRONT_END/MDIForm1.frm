@@ -96,8 +96,16 @@ Private Sub MDIForm_Load()
 'Form5.Show
 End Sub
 
+Private Sub mnuBankDetails_Click()
+frmBank.Show
+End Sub
+
 Private Sub mnuDepartment_Click()
 frmDepartment.Show
+End Sub
+
+Private Sub mnuEmployee_Click()
+frmEmp.Show
 End Sub
 
 Private Sub mnuPosition_Click()
