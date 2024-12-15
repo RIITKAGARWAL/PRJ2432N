@@ -439,25 +439,109 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim toogle As Boolean
-Private Sub Form_load()
-toogle = True
+Dim toggle As Boolean
+
+Private Sub Command9_Click()
+bckendIntegration
 End Sub
+
+Private Sub Form_Load()
+    toggle = True
+End Sub
+
 Private Sub cmdDispDept_Click()
-toogle = Not toogle
-If toogle = False Then
-DataGridDept.Visible = True
-cmdDispDept.Caption = "&Back"
-Else
-DataGridDept.Visible = False
-cmdDispDept.Caption = "&Display Records"
-
-End If
-
+    toggle = Not toggle
+    If toggle = False Then
+        DataGridDept.Visible = True
+        cmdDispDept.Caption = "&Back"
+    Else
+        DataGridDept.Visible = False
+        cmdDispDept.Caption = "&Display Records"
+    End If
 End Sub
+
 Private Sub cmdDeptSearch_Click()
-toogle = False
-
-DataGridDept.Visible = True
-cmdDispDept.Caption = "&Back"
+    toggle = False
+    DataGridDept.Visible = True
+    cmdDispDept.Caption = "&Back"
 End Sub
+
+'-------------------responsiveness testing---------------------
+
+'----------------Backend Integration--------------
+Private Sub bckendIntegration()
+    'raise error if problem occurs during execution
+    On Error GoTo BCKEND_ERR_HNDLR
+    
+    'creating a connection object
+    Dim conn As ADODB.Connection
+    Set conn = New ADODB.Connection
+    
+    'declaring and assigning connection String
+    Dim connString As String
+    connString = "Provider=MSDAORA.1;User ID=PRJ2432N/PRJ2432N;Persist Security Info=False"
+    
+    'opening connection string
+    conn.Open connString
+    
+    'creating the command object
+    Dim cmd As ADODB.Command
+    Set cmd = New ADODB.Command
+    
+    'parameterised query for
+    '1.Query Caching(faster execution at Cache memory)
+    '2.protection from SQL Injections
+    With cmd
+        .ActiveConnection = conn
+        .CommandText = "Select * from DEPARTMENT"
+        .CommandType = adCmdText
+        ' Add the parameter
+        '.Parameters.Append .CreateParameter("MyParam", adVarChar, adParamInput, 50, paramValue)
+    End With
+    
+    'creating the Recordset object
+    Dim rcrdset As ADODB.Recordset
+    Set rcrdset = cmd.Execute
+    
+    Label1.Caption = rcrdset.Fields(0) & ""
+    Text1.Text = rcrdset.Fields(1) & ""
+    Text2.Text = rcrdset.Fields(2) & ""
+    Text3.Text = rcrdset.Fields(3) & ""
+    
+    'closing the recordset
+    rcrdset.Close
+    'freeing up the container
+    Set rcrdset = Nothing
+    
+    'closing the connection
+    conn.Close
+    'freeing up the container
+    Set conn = Nothing
+    
+    'Everything ran smoothly, Success!
+    Exit Sub
+    
+'If runtime error occurs in any part of bckend sub
+'the compiler will jump directly to the below part of code
+
+'catch block of bckendErrHndlr
+BCKEND_ERR_HNDLR:
+    'Informing User about the Runtime Error
+    MsgBox ("Something Unexpected has Occured! " & vbCrLf & _
+        "Error Number: " & Err.Number & vbCrLf & _
+        "Error Description: " & Err.Description & Chr(13) & Chr(10) & _
+        "Error Source: " & Err.Source)
+    
+    'clear the Error
+    Err.Clear
+    
+    If Not conn Is Nothing Then
+        'closing the connection
+        conn.Close
+        'freeing up the container
+        Set conn = Nothing
+    End If
+    'Error Successfully Dealt!
+End Sub
+
+
