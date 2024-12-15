@@ -1,1 +1,3 @@
 Line 18: Class MSChartWiz.SubWizard of control SubWizard1 was not a loaded control class.
+Line 24: The property name _ExtentX in SubWizard1 is invalid.
+Line 25: The property name _ExtentY in SubWizard1 is invalid.

@@ -500,18 +500,18 @@ Private Sub bckendIntegration()
     End With
     
     'creating the Recordset object
-    Dim rcrdset As ADODB.Recordset
-    Set rcrdset = cmd.Execute
+    Dim RcrdSet As ADODB.Recordset
+    Set RcrdSet = cmd.Execute
     
-    Label1.Caption = rcrdset.Fields(0) & ""
-    Text1.Text = rcrdset.Fields(1) & ""
-    Text2.Text = rcrdset.Fields(2) & ""
-    Text3.Text = rcrdset.Fields(3) & ""
+    Label1.Caption = RcrdSet.Fields(0) & ""
+    Text1.Text = RcrdSet.Fields(1) & ""
+    Text2.Text = RcrdSet.Fields(2) & ""
+    Text3.Text = RcrdSet.Fields(3) & ""
     
     'closing the recordset
-    rcrdset.Close
+    RcrdSet.Close
     'freeing up the container
-    Set rcrdset = Nothing
+    Set RcrdSet = Nothing
     
     'closing the connection
     conn.Close
