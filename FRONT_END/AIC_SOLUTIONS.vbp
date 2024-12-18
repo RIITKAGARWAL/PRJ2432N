@@ -30,6 +30,7 @@ Form=Form13.frm
 Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCTL.OCX
 Object={86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCT2.OCX
 Module=Module2; Module2.bas
+Reference=*\G{56BF9020-7A2F-11D0-9482-00A0C91110ED}#1.0#0#C:\Windows\SysWow64\MSBIND.DLL#Microsoft Data Binding Collection
 Startup="MDIForm1"
 HelpFile=""
 Command32=""

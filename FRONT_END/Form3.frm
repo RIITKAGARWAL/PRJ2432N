@@ -4,25 +4,24 @@ Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
 Object = "{0E59F1D2-1FBE-11D0-8FF2-00A0D10038BC}#1.0#0"; "msscript.ocx"
 Object = "{27395F88-0C0C-101B-A3C9-08002B2F49FB}#1.1#0"; "PICCLP32.OCX"
-Object = "{D5288401-E6C5-11D1-BE7D-C63815000000}#1.0#0"; "CHARTWIZ.OCX"
 Begin VB.Form Form3 
    Caption         =   "Form3"
    ClientHeight    =   7545
-   ClientLeft      =   120
-   ClientTop       =   465
+   ClientLeft      =   225
+   ClientTop       =   870
    ClientWidth     =   13500
    LinkTopic       =   "Form3"
    ScaleHeight     =   7545
    ScaleWidth      =   13500
    StartUpPosition =   3  'Windows Default
-   Begin MSChartWiz.SubWizard SubWizard1 
+   Begin VB.PictureBox SubWizard1 
       Height          =   1935
       Left            =   2160
+      ScaleHeight     =   1875
+      ScaleWidth      =   1875
       TabIndex        =   2
       Top             =   4320
       Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   3413
    End
    Begin PicClip.PictureClip PictureClip1 
       Left            =   5640
@@ -61,7 +60,7 @@ Begin VB.Form Form3
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   "http:///"
+      Location        =   ""
    End
    Begin InetCtlsObjects.Inet Inet1 
       Left            =   8520
@@ -81,6 +80,15 @@ Begin VB.Form Form3
       TabIndex        =   0
       Top             =   600
       Width           =   4335
+   End
+   Begin VB.Menu FFDJHFDJ 
+      Caption         =   "KSDJFKLJSDK"
+      Begin VB.Menu ERTRE 
+         Caption         =   "SDRFWE"
+      End
+   End
+   Begin VB.Menu DFD 
+      Caption         =   "EFER"
    End
 End
 Attribute VB_Name = "Form3"
