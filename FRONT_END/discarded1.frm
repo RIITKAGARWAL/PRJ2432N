@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
 Object = "{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}#1.0#0"; "MSDATGRD.OCX"
-Begin VB.Form frmDepartment 
+Begin VB.Form discarded1 
    Caption         =   "Department "
    ClientHeight    =   8685
    ClientLeft      =   120
@@ -16,14 +16,14 @@ Begin VB.Form frmDepartment
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
-   Icon            =   "Form6.frx":0000
+   Icon            =   "discarded1.frx":0000
    LinkTopic       =   "Form5"
    MDIChild        =   -1  'True
    ScaleHeight     =   8685
    ScaleWidth      =   16155
    WindowState     =   2  'Maximized
    Begin MSDataGridLib.DataGrid DataGridDept 
-      Bindings        =   "Form6.frx":94CA
+      Bindings        =   "discarded1.frx":94CA
       Height          =   2775
       Left            =   120
       TabIndex        =   39
@@ -510,7 +510,7 @@ Begin VB.Form frmDepartment
       Width           =   3210
    End
 End
-Attribute VB_Name = "frmDepartment"
+Attribute VB_Name = "discarded1"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True

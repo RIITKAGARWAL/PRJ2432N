@@ -1,15 +1,15 @@
 VERSION 5.00
 Begin {78E93846-85FD-11D0-8487-00A0C90DC8A9} collectiveReport 
-   Bindings        =   "DataReport1.dsx":0000
-   Caption         =   "DataReport1"
-   ClientHeight    =   7800
+   Bindings        =   "DepartmentCollectiveReport.dsx":0000
+   Caption         =   "Collective Department Report"
+   ClientHeight    =   6720
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   9645
+   ClientWidth     =   9960
    MDIChild        =   -1  'True
    WindowState     =   2  'Maximized
-   _ExtentX        =   17013
-   _ExtentY        =   13758
+   _ExtentX        =   17568
+   _ExtentY        =   11853
    _Version        =   393216
    _DesignerVersion=   100684101
    ReportWidth     =   7937

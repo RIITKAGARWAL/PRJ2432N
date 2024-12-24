@@ -1,0 +1,666 @@
+'+++++++++Global Declaration Zone++++++
+Dim toogle As Boolean
+Dim packet As String
+'----------Global Declaration Zone Ends here ---------
+
+
+
+Private Sub Srch(ctrl As Control, idx As Integer)
+    On Error GoTo ErrorHandler
+     'creating connection object
+    Set conn = New ADODB.Connection
+    'setting connection String
+    connString = "Provider=MSDAORA.1;User ID=PRJ2432N/PRJ2432N;Persist Security Info=False"
+    'connection open
+    conn.Open connString
+    
+    Dim rs As ADODB.Recordset
+    Set rs = New ADODB.Recordset
+    Dim Sequel As String
+    Sequel = "SELECT * FROM department"
+    
+    Set rs = conn.Execute(Sequel)
+    ctrl.Clear
+    
+    Do While Not rs.EOF
+        If TypeOf ctrl Is ComboBox Or TypeOf ctrl Is ListBox Then
+            ctrl.AddItem rs.Fields(idx).Value
+        End If
+        rs.MoveNext
+    Loop
+    conn.Close
+    Exit Sub
+    
+ErrorHandler:
+    'Informing User about the Runtime Error
+    MsgBox ("Something Unexpected has Occured! " & vbCrLf & _
+        "Error Number: " & Err.Number & vbCrLf & _
+        "Error Description: " & Err.Description & Chr(13) & Chr(10) & _
+        "Error Source: " & Err.Source)
+    
+    'clear the Error
+    Err.Clear
+    
+End Sub
+
+
+Private Sub cmbSearchDEPT_ID_GotFocus()
+    Srch cmbSearchDEPT_ID, 0
+End Sub
+
+Private Sub cmbSearchDEPT_NM_GotFocus()
+    Srch cmbSearchDEPT_NM, 1
+End Sub
+
+Private Sub cmbSearchLOCATION_GotFocus()
+    Srch cmbSearchLOCATION, 2
+End Sub
+
+Private Sub cmbSearchMANAGER_GotFocus()
+    Srch cmbSearchMANAGER, 3
+End Sub
+
+Private Sub cmbSearchBUDGET_GotFocus()
+    Srch cmbSearchBUDGET, 4
+End Sub
+
+
+
+
+Private Sub listSearchDEPT_ID_GotFocus()
+    Srch listSearchDEPT_ID, 0
+End Sub
+
+Private Sub listSearchDEPT_NM_GotFocus()
+    Srch listSearchDEPT_NM, 1
+End Sub
+
+Private Sub listSearchLOCATION_GotFocus()
+    Srch listSearchLOCATION, 2
+End Sub
+
+Private Sub listSearchMANAGER_GotFocus()
+    Srch listSearchMANAGER, 3
+End Sub
+
+Private Sub listSearchBUDGET_GotFocus()
+    Srch listSearchBUDGET, 4
+End Sub
+
+'+++++++form load code begins here+++++++
+Private Sub Form_Load()
+    
+    'lock all textbox
+    TextBoxes "locked", True
+    TextBoxes "enabled", False
+    
+    'initializing toogle
+    toogle = True
+    
+    'creating connection object
+    Set conn = New ADODB.Connection
+    'setting connection String
+    connString = "Provider=MSDAORA.1;User ID=PRJ2432N/PRJ2432N;Persist Security Info=False"
+    'connection open
+    conn.Open connString
+    
+    Set cmd = New ADODB.Command
+    'parameterised query for
+    '1.Query Caching(faster execution at Cache memory)
+    '2.protection from SQL Injections
+    With cmd
+        .ActiveConnection = conn
+        
+        .CommandType = adCmdText
+        ' Add the parameter
+        '.Parameters.Append .CreateParameter("MyParam", adVarChar, adParamInput, 50, paramValue)
+    End With
+    Set rcrdset = New ADODB.Recordset
+    'subroutine called
+    navPnl
+
+End Sub
+
+'----------form load code ends here-------
+Private Sub BofEof()
+If ((rcrdset.BOF = True) Or (rcrdset.EOF = True)) Then
+MsgBox ("No Records Available")
+End If
+End Sub
+
+
+'+++++++++ NavPanel code begins here++++++++
+
+Private Sub cmdFIRST_Click()
+   On Error GoTo NAV_ERR_HNDLR
+   rcrdset.MoveFirst
+Exit Sub
+NAV_ERR_HNDLR:
+    BofEof
+End Sub
+
+Private Sub cmdLAST_Click()
+On Error GoTo NAV_ERR_HNDLR
+   rcrdset.MoveLast
+Exit Sub
+NAV_ERR_HNDLR:
+    BofEof
+End Sub
+
+Private Sub cmdPREV_Click()
+On Error GoTo NAV_ERR_HNDLR
+    If Not rcrdset.BOF Then
+        rcrdset.MovePrevious
+    Else
+        rcrdset.MoveLast
+    End If
+Exit Sub
+NAV_ERR_HNDLR:
+    BofEof
+End Sub
+Private Sub cmdNEXT_Click()
+On Error GoTo NAV_ERR_HNDLR
+    If Not rcrdset.EOF Then
+        rcrdset.MoveNext
+    Else
+        rcrdset.MoveFirst
+    End If
+Exit Sub
+NAV_ERR_HNDLR:
+    BofEof
+End Sub
+'----------Nav Panel code ends here----------
+
+'+++++++++++ control panel block begins here ++++++
+
+Private Sub cmdCREATE_Click()
+    
+    
+   
+    'unlock all textbox
+    TextBoxes "locked", False
+    'disable textbox
+    TextBoxes "enabled", True
+     'set focus on txtDEPT_NM
+    txtDEPT_NM.SetFocus
+    
+    'clear all Textbox texts
+    TextBoxes "blank", False
+    
+    'disable all button
+    cmdOnOff False
+    
+    'enable Save Button
+    cmdSAVE.Enabled = True
+    
+    On Error GoTo BCKEND_ERR_HNDLR
+
+    'fetching sequence from oracle 11g
+    sql = "select PK + 1 FROM DEPT_ID"
+    
+    cmd.CommandText = sql
+    Set rcrdset = cmd.Execute
+    
+    'making primary key alpha-numeric
+    Dim PK As String
+    PK = "DEPT" & (rcrdset.Fields(0).Value)
+    txtDEPT_ID.Text = PK
+    
+    'It will be shared inside cmdSave CodeBlock
+    packet = "create"
+Exit Sub
+
+'catch block of bckendErrHndlr
+BCKEND_ERR_HNDLR:
+    'sub procedure from module2
+    ErrHndlCode
+End Sub
+
+Private Sub cmdUPDATE_Click()
+
+  
+    
+    'unlock all textbox
+    TextBoxes "locked", False
+    
+     'disable textbox
+    TextBoxes "enabled", True
+    
+      'set focus on txtDEPT_NM
+    txtDEPT_NM.SetFocus
+  
+    'disable all button
+    cmdOnOff False
+    
+    'enable Save Button
+    cmdSAVE.Enabled = True
+    
+    'It will be shared inside cmdSave CodeBlock
+    packet = "update"
+
+End Sub
+
+Private Sub cmdDELETE_Click()
+
+    'lock all textbox
+    TextBoxes "locked", True
+    
+     'disable textbox
+    TextBoxes "enabled", False
+    
+    'disable all button
+    cmdOnOff False
+    
+    'enable Save Button
+    cmdSAVE.Enabled = True
+    
+    'set focus on cmdSave
+    cmdSAVE.SetFocus
+    
+    packet = "delete"
+    
+End Sub
+
+Private Sub cmdSAVE_Click()
+On Error GoTo BCKEND_ERR_HNDLR
+    cmdOnOff False
+    Dim response As Integer
+    'validate from user
+    response = MsgBox("Do you want to save changes?", vbYesNo, "Save Changes")
+
+    If response = vbYes Then
+    
+        Select Case packet
+            Case "create"
+                'SQL statement
+                sql = "insert into department values('" + txtDEPT_ID.Text + "','" + txtDEPT_NM.Text + "','" + txtLOCATION + "','" + txtMANAGER + "','" + txtBUDGET + "')"
+                cmd.CommandText = sql
+                Set rcrdset = cmd.Execute
+                
+                'UPDATING SEQUENCE
+                sql = "UPDATE DEPT_ID SET PK = PK +1"
+                cmd.CommandText = sql
+                Set rcrdset = cmd.Execute
+                
+            Case "update"
+                'SQL statement
+                sql = "update department set dept_nm = '" + txtDEPT_NM.Text + "',location = '" + txtLOCATION + "',manager = '" + txtMANAGER + "',budget = '" + txtBUDGET + "' where dept_id = '" + txtDEPT_ID.Text + "' "
+                cmd.CommandText = sql
+                Set rcrdset = cmd.Execute
+                
+            Case "delete"
+                'SQL statement
+                sql = "delete from department where dept_id =  '" + txtDEPT_ID.Text + "'"
+                cmd.CommandText = sql
+                Set rcrdset = cmd.Execute
+        End Select
+        'reset the string
+        packet = ""
+       
+        response = MsgBox("Record Saved!", vbInformation)
+    Else
+        response = MsgBox("Record creation Failed!", vbCritical)
+    End If
+    Adodc1.Refresh
+    TextBoxes "blank", False
+    TextBoxes "locked", True
+    TextBoxes "enabled", False
+    
+    cmdOnOff True
+    cmdSAVE.Enabled = False
+    
+    navPnl
+Exit Sub
+
+'catch block of bckendErrHndlr
+BCKEND_ERR_HNDLR:
+
+    'reset the string
+    packet = ""
+    'calling sub routine
+    ErrHndlCode
+    
+    'SQL statement
+    sql = "select * from department"
+    cmd.CommandText = sql
+    Set rcrdset = cmd.Execute
+    
+    'after error handling task to do
+    TextBoxes "blank", False
+    TextBoxes "locked", True
+    TextBoxes "enabled", True
+    navPnl
+    cmdOnOff True
+    cmdSAVE.Enabled = False
+End Sub
+
+Private Sub cmdEXIT_Click()
+    Dim response As Integer
+    response = MsgBox("Do you want to Exit?", vbYesNoCancel)
+    
+    Select Case response
+        Case vbYes
+            End
+            ' Code to abort
+        Case vbNo
+            ' Code to retry
+        Case vbCancel
+            ' Code to ignore
+    End Select
+End Sub
+'-------control panel code ends here-------
+
+'+++++++++display panel block begins here++++++
+Private Sub cmdDispDept_Click()
+    toogle = Not toogle
+    If toogle = False Then
+        DataGridDept.Visible = True
+        cmdDispDept.Caption = "&Back"
+    Else
+        DataGridDept.Visible = False
+        cmdDispDept.Caption = "Display &Records"
+    End If
+End Sub
+
+Private Sub cmdDeptSearch_Click()
+    toogle = False
+    Adodc1.RecordSource = "select * from department where dept_id = '" + cmbSearchDEPT_ID.Text + "' or dept_nm = '" + cmbSearchDEPT_NM.Text + "' or LOCATION = '" + cmbSearchLOCATION.Text + "' or MANAGER = '" + cmbSearchMANAGER.Text + "'  or BUDGET = '" + cmbSearchBUDGET.Text + "'"
+   
+    Adodc1.Refresh
+    'display data in datagrid
+    DataGridDept.Visible = True
+    
+    'change caption of command button
+    cmdDispDept.Caption = "&Back"
+    
+    'open Report
+    DataReport1.Show
+End Sub
+'------display panel block ends here------
+
+'+++++ procedures below ++++++
+
+Private Sub cmdOnOff(response As Boolean)
+    Dim ctrl As Control
+    For Each ctrl In Me.Controls
+        If TypeOf ctrl Is CommandButton Then
+         ctrl.Enabled = response
+        End If
+    Next ctrl
+End Sub
+Private Sub TextBoxes(packet As String, state As Boolean)
+    Dim ctrl As Control
+    For Each ctrl In Me.Controls
+        If TypeOf ctrl Is TextBox Then
+            Select Case packet
+                Case "blank"
+                    ctrl.Text = ""
+                Case "locked"
+                    ctrl.Locked = state
+                Case "enabled"
+                    ctrl.Enabled = state
+            End Select
+        End If
+    Next ctrl
+End Sub
+
+Private Sub navPnl()
+    If rcrdset.state = adStateOpen Then
+        rcrdset.Close
+    End If
+    rcrdset.Open "SELECT * FROM department", conn, adOpenKeyset, adLockOptimistic
+
+    ' Check if the recordset is empty
+    If rcrdset.EOF And rcrdset.BOF Then
+        cmdOnOff False
+        cmdCREATE.Enabled = True
+        cmdEXIT.Enabled = True
+        
+        TextBoxes "blank", False
+        TextBoxes "locked", True
+        TextBoxes "enabled", False
+
+        'pk automatic generation resets
+        sql = "update dept_id set pk = 0"
+        cmd.CommandText = sql
+        cmd.Execute
+        
+        'repeating the above processes
+        If rcrdset.state = adStateOpen Then
+            rcrdset.Close
+        End If
+        rcrdset.Open "SELECT * FROM department", conn, adOpenKeyset, adLockOptimistic
+
+       'txt blank on lost focus when first record entry
+        Exit Sub
+    End If
+
+    ' Bind the recordset to the form controls
+    Set txtDEPT_ID.DataSource = rcrdset
+    txtDEPT_ID.DataField = "DEPT_ID"
+    
+    Set txtDEPT_NM.DataSource = rcrdset
+    txtDEPT_NM.DataField = "DEPT_NM"
+    
+    Set txtLOCATION.DataSource = rcrdset
+    txtLOCATION.DataField = "LOCATION"
+    
+    Set txtMANAGER.DataSource = rcrdset
+    txtMANAGER.DataField = "MANAGER"
+    
+    Set txtBUDGET.DataSource = rcrdset
+    txtBUDGET.DataField = "BUDGET"
+End Sub
+
+'--------------------placeholder-------------
+'----------------tab & enter coding-----------
+
+'----------------properties click-------------
+
+'-------------------responsiveness testing---------------------
+
+'----------------Backend Integration--------------
+Private Sub bckendIntegration()
+    'raise error if problem occurs during execution
+    On Error GoTo BCKEND_ERR_HNDLR
+    
+    'creating a connection object
+    Dim conn As ADODB.Connection
+    Set conn = New ADODB.Connection
+    
+    'declaring and assigning connection String
+    Dim connString As String
+    connString = "Provider=MSDAORA.1;User ID=PRJ2432N/PRJ2432N;Persist Security Info=False"
+    
+    'opening connection string
+    conn.Open connString
+    
+    'creating the command object
+    Dim cmd As ADODB.Command
+    Set cmd = New ADODB.Command
+    
+    'parameterised query for
+    '1.Query Caching(faster execution at Cache memory)
+    '2.protection from SQL Injections
+    With cmd
+        .ActiveConnection = conn
+        .CommandText = "Select * from DEPARTMENT"
+        .CommandType = adCmdText
+        ' Add the parameter
+        '.Parameters.Append .CreateParameter("MyParam", adVarChar, adParamInput, 50, paramValue)
+    End With
+    
+    'creating the Recordset object
+    Dim rcrdset As ADODB.Recordset
+    Set rcrdset = cmd.Execute
+    
+    
+    Label1.Caption = rcrdset.Fields(0) & ""
+    Text1.Text = rcrdset.Fields(1) & ""
+    Text2.Text = rcrdset.Fields(2) & ""
+    Text3.Text = rcrdset.Fields(3) & ""
+    
+    'closing the recordset
+    rcrdset.Close
+    'freeing up the container
+    Set rcrdset = Nothing
+    
+    'closing the connection
+    conn.Close
+    'freeing up the container
+    Set conn = Nothing
+    
+    'Everything ran smoothly, Success!
+    Exit Sub
+    
+'If runtime error occurs in any part of bckend sub
+'the compiler will jump directly to the below part of code
+
+'catch block of bckendErrHndlr
+BCKEND_ERR_HNDLR:
+    'Informing User about the Runtime Error
+    MsgBox ("Something Unexpected has Occured! " & vbCrLf & _
+        "Error Number: " & Err.Number & vbCrLf & _
+        "Error Description: " & Err.Description & Chr(13) & Chr(10) & _
+        "Error Source: " & Err.Source)
+    
+    'clear the Error
+    Err.Clear
+    
+    If Not conn Is Nothing Then
+        'closing the connection
+        conn.Close
+        'freeing up the container
+        Set conn = Nothing
+    End If
+    'Error Successfully Dealt!
+    
+End Sub
+
+
+Private Sub txtDEPT_NM_KeyPress(keyascii As Integer)
+    enterKeyPress txtDEPT_NM, txtLOCATION, keyascii
+    isValidInput txtDEPT_NM, "alphabet", keyascii, 0
+    isValidInput txtDEPT_NM, "length", keyascii, 15
+End Sub
+
+
+
+Private Sub txtDEPT_NM_LostFocus()
+
+                If Trim(txtDEPT_NM.Text) = "" Then
+                    txtDEPT_NM.SetFocus
+                    response = MsgBox("The Field is Mandatory", vbExclamation)
+                End If
+                
+End Sub
+
+Private Sub txtLOCATION_KeyPress(keyascii As Integer)
+    enterKeyPress txtLOCATION, txtMANAGER, keyascii
+     isValidInput txtLOCATION, "length", keyascii, 6
+End Sub
+
+Private Sub txtMANAGER_KeyPress(keyascii As Integer)
+    enterKeyPress txtMANAGER, txtBUDGET, keyascii
+    isValidInput txtMANAGER, "length", keyascii, 6
+End Sub
+
+Private Sub txtBUDGET_KeyPress(keyascii As Integer)
+    enterKeyPress txtBUDGET, cmdSAVE, keyascii
+   isValidInput txtBUDGET, "decimal", keyascii, 0
+   If Val(txtBUDGET.Text) < 999999 And keyascii = vbKeyBack Then
+    keyascii = 0 'acts as a backspace
+   End If
+End Sub
+
+'--------module 
+
+
+
+Public Sub isValidInput(ctrl As TextBox, packet As String, keyascii As Integer, strlen As Integer)
+        Select Case packet
+            Case "digit"
+                If Not ((keyascii >= 48 And keyascii <= 57) Or keyascii = vbKeyBack Or keyascii = vbKeyReturn) Then
+                    keyascii = 0 ' Simulate a backspace
+                    response = MsgBox("Numeric Digits (0,1,2,3...9) only", vbExclamation)
+                    'ctrl.Text = Left(ctrl.Text, Len(ctrl.Text) - 1)
+                End If
+            
+            Case "decimal"
+                If Not ((keyascii >= 48 And keyascii <= 57) Or keyascii = vbKeyBack Or keyascii = vbKeyReturn Or keyascii = 46) Then
+                           keyascii = 0 ' Simulate a backspace
+                           response = MsgBox("decimal format (0.00,1.01,...9.99) only", vbExclamation)
+                ElseIf (keyascii = 46) Then
+                ' Ensure only one decimal point is allowed
+                    If InStr(ctrl.Text, ".") > 0 Then
+                        keyascii = 0 'Simulate a backspace
+                    End If
+                End If
+ 
+            Case "alphabet"
+                If Not ((keyascii >= 65 And keyascii <= 90) Or (keyascii >= 97 And keyascii <= 132) Or (keyascii = vbKeySpace) Or (keyascii = vbKeyBack) Or (keyascii = vbKeyReturn)) Then
+                    keyascii = 0 ' Simulate a backspace
+                    response = MsgBox("Alphabets (a,b,c,...,z) (A,B,C,...Z) only", vbExclamation)
+                End If
+            Case "length"
+                If (Len(ctrl.Text) > strlen) And (keyascii <> vbKeyBack) Then
+                    keyascii = 0 ' Simulate a backspace
+                    response = MsgBox("Length Exceeds!!!", vbExclamation)
+                End If
+            Case "email"
+                'on lost focus event of textbox
+                Dim emailPattern As String
+                emailPattern = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$"
+                If Not ctrl.Text Like emailPattern Then
+                response = MsgBox("Please enter a valid email address.", vbExclamation)
+                End If
+            Case "special"
+            
+            Case "empty"
+                If Trim(ctrl.Text) = "" Then
+                    ctrl.SetFocus
+                    response = MsgBox("The Field is Mandatory", vbExclamation)
+                End If
+        End Select
+    End Sub
+
+Public Sub enterKeyPress(t1 As Control, t2 As Control, keyascii As Integer)
+If keyascii = vbKeyReturn Then
+t2.SetFocus
+End If
+End Sub
+
+Public Sub cmdOnOff(response As Boolean)
+    Dim ctrl As Control
+    For Each ctrl In Me.Controls
+        If TypeOf ctrl Is CommandButton Then
+         ctrl.Enabled = response
+        End If
+    Next ctrl
+End Sub
+Public Sub TextBoxes(packet As String, state As Boolean)
+    Dim ctrl As Control
+    For Each ctrl In Me.Controls
+        If TypeOf ctrl Is TextBox Then
+            Select Case packet
+                Case "blank"
+                    ctrl.Text = ""
+                Case "locked"
+                    ctrl.Locked = state
+                Case "enabled"
+                    ctrl.Enabled = state
+            End Select
+        End If
+    Next ctrl
+End Sub
+
+Public Sub ErrHndlCode()
+'Informing User about the Runtime Error
+    Dim response As Integer
+    response = MsgBox("Error Number: " & Err.Number & vbCrLf & _
+        "Error Description: " & Err.Description & Chr(13) & Chr(10) & _
+        "Error Source: " & Err.Source, vbCritical, "AIC_SOLUTIONS ___ Something Unexpected has Occured! ")
+    
+    'clear the Error
+    Err.Clear
+End Sub
